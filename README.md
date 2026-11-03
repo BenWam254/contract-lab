@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Contract Lab
 
-## Getting Started
+Validate JSON payloads against JSON Schema subsets and diff API contracts for breaking changes, entirely in your browser.
 
-First, run the development server:
+**Live demo:** https://contract-lab-chi.vercel.app/
+
+![Contract Lab dashboard](./docs/screenshot.png)
+
+## Features
+
+- **Payload validation** against a JSON Schema subset, with three unknown-field policies: `reject`, `drop` and `allow`.
+- **Contract diff** between two schema versions, with every change classified as breaking or non-breaking.
+- **Shareable state:** contract, new contract, payload and policy are encoded into the URL, so a link reproduces the exact session.
+- **Large payloads stay smooth:** validation and diffing run in a Web Worker, so the interface never blocks.
+- **Private by design:** nothing is uploaded. Everything runs client-side.
+
+## How it works
+
+The core logic (parsing, validation, diffing and share-state encoding) is pure TypeScript with no runtime dependencies, covered by unit tests. The UI sends each job to a Web Worker through a small typed message protocol. Inputs are debounced, results are tagged with a request id so stale responses are dropped, and a superseded job is cancelled by terminating its worker. Rendered rows are capped so a result with thousands of violations cannot freeze the page.
+
+## Stack
+
+Next.js 14 (App Router) · TypeScript (strict) · Tailwind CSS · Vitest
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm test        # unit tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+A "Modern Noir" system: obsidian surfaces, flat sharp-cornered layout, and gold, sky blue, pink and purple accents used sparingly for status and emphasis.
